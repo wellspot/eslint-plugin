@@ -49,13 +49,13 @@ export default [
   {
     plugins: { '@wellspot': wellspot },
     rules: {
-      '@wellspot/no-react-compiler-bug': 'error',
+      '@wellspot/no-local-copy-of-module-variable': 'error',
     },
   },
 ];
 ```
 
-The plugin only inspects syntax, so it works with whatever parser your project
+The rules need no type information, so they work with whatever parser your project
 already uses for JSX/TSX (for example `typescript-eslint`, or `espree` with
 `ecmaFeatures.jsx`).
 
@@ -65,9 +65,9 @@ CommonJS works too: `const wellspot = require('@wellspot/eslint-plugin')`.
 
 ✅ = enabled in `configs.recommended`
 
-| Rule | Description | ✅ |
-| --- | --- | :-: |
-| [`no-react-compiler-bug`](docs/rules/no-react-compiler-bug.md) | Disallow code patterns that trigger known React Compiler bugs (boilerplate) | ✅ |
+| Rule | Description | Upstream issue | ✅ |
+| --- | --- | --- | :-: |
+| [`no-local-copy-of-module-variable`](docs/rules/no-local-copy-of-module-variable.md) | Disallow local copies of mutable module-level variables, which React Compiler replaces with the variable itself | [react#37888](https://github.com/react/react/issues/37888) | ✅ |
 
 ## Contributing
 
