@@ -205,7 +205,7 @@ enforced by commitlint in a husky `commit-msg` hook:
 
 ```
 feat(rules): add no-mutation-in-use-memo
-fix(no-react-compiler-bug): handle memo-wrapped components
+fix(no-local-copy-of-module-variable): handle memo-wrapped components
 docs: document yalc workflow
 chore(deps): bump typescript-eslint
 ```

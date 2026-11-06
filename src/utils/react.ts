@@ -74,3 +74,15 @@ export function isComponentOrHook(node: FunctionNode): boolean {
   const name = getFunctionName(node);
   return name !== null && (isComponentName(name) || isHookName(name));
 }
+
+const OPT_OUT_DIRECTIVES = new Set(['use no memo', 'use no forget']);
+
+/** True when a function body or the file starts with `'use no memo'` (React Compiler opt-out). */
+export function hasOptOutDirective(node: FunctionNode | TSESTree.Program): boolean {
+  const body = node.type === AST_NODE_TYPES.Program ? node.body : node.body.type === AST_NODE_TYPES.BlockStatement ? node.body.body : [];
+  for (const statement of body) {
+    if (statement.type !== AST_NODE_TYPES.ExpressionStatement || statement.directive === undefined) break;
+    if (OPT_OUT_DIRECTIVES.has(statement.directive)) return true;
+  }
+  return false;
+}

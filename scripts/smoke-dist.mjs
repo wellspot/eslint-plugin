@@ -9,7 +9,7 @@ const { default: esm } = await import('../dist/index.js');
 
 for (const [format, plugin] of Object.entries({ cjs, esm })) {
   assert.equal(plugin.meta?.name, '@wellspot/eslint-plugin', `${format}: meta.name`);
-  assert.ok(plugin.rules?.['no-react-compiler-bug'], `${format}: rules`);
+  assert.ok(plugin.rules?.['no-local-copy-of-module-variable'], `${format}: rules`);
   assert.equal(plugin.configs?.recommended?.plugins?.['@wellspot'], plugin, `${format}: configs`);
 }
 

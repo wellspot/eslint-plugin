@@ -8,13 +8,15 @@ import { describe, expect, it } from 'vitest';
 import wellspot from '../src';
 
 const buggy = `
-  export function Profile() {
-    try {
-      const [name] = useState('');
-      return <p>{name}</p>;
-    } catch {
-      return null;
-    }
+  let pending = 'value';
+
+  export function Component() {
+    const handleClick = () => {
+      const copy = pending;
+      pending = null;
+      console.log(copy);
+    };
+    return <button onClick={handleClick}>Click</button>;
   }
 `;
 
@@ -32,7 +34,7 @@ async function lint(config: Parameters<typeof defineConfig>[0]) {
       config,
     ),
   });
-  const [result] = await eslint.lintText(buggy, { filePath: 'Profile.tsx' });
+  const [result] = await eslint.lintText(buggy, { filePath: 'Component.tsx' });
   return result!.messages;
 }
 
@@ -41,9 +43,9 @@ describe('flat config integration', () => {
     const messages = await lint(wellspot.configs.recommended);
     expect(messages).toHaveLength(1);
     expect(messages[0]).toMatchObject({
-      ruleId: '@wellspot/no-react-compiler-bug',
+      ruleId: '@wellspot/no-local-copy-of-module-variable',
       severity: 2,
-      line: 4,
+      line: 6,
     });
   });
 
@@ -52,10 +54,10 @@ describe('flat config integration', () => {
       wellspot.configs.recommended,
       {
         plugins: { '@wellspot': wellspot },
-        rules: { '@wellspot/no-react-compiler-bug': ['warn', { ignore: [] }] },
+        rules: { '@wellspot/no-local-copy-of-module-variable': 'warn' },
       },
     ]);
     expect(messages).toHaveLength(1);
-    expect(messages[0]).toMatchObject({ ruleId: '@wellspot/no-react-compiler-bug', severity: 1 });
+    expect(messages[0]).toMatchObject({ ruleId: '@wellspot/no-local-copy-of-module-variable', severity: 1 });
   });
 });

@@ -1,6 +1,6 @@
 import { name, version } from '../package.json';
 
-/** Prefix consumers use for rule IDs, e.g. `@wellspot/no-react-compiler-bug`. */
+/** Prefix consumers use for rule IDs, e.g. `@wellspot/no-local-copy-of-module-variable`. */
 export const PLUGIN_NAMESPACE = '@wellspot';
 
 export const PLUGIN_NAME = name;
