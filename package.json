@@ -59,7 +59,7 @@
     "check": "npm run typecheck && npm run lint && npm run test && npm run build && npm run test:dist && npm run lint:package",
     "new-rule": "node scripts/new-rule.mjs",
     "prepare": "husky",
-    "prepublishOnly": "npm run check"
+    "prepublishOnly": "npm run typecheck && npm run lint && npm run test && npm run build && npm run test:dist && publint"
   },
   "peerDependencies": {
     "eslint": "^9.0.0 || ^10.0.0"
