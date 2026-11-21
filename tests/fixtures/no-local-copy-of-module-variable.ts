@@ -169,6 +169,28 @@ export function Component() {
 `,
   },
   {
+    // https://github.com/react/react/issues/37888#issuecomment-6706079318
+    // With dependencies the callback is not outlined to `_temp`: it stays in the
+    // hook's memo block. The hook calls only `useEffect` and returns nothing.
+    name: 'useEffect with dependencies in a hook that returns nothing',
+    copy: 'old',
+    source: 'traversed',
+    code: `
+let traversed = false;
+export function markTraversed() {
+  traversed = true;
+}
+
+export function useStep(location: string, onStep: (location: string, fresh: boolean) => void) {
+  useEffect(() => {
+    const old = traversed;
+    traversed = false;
+    onStep(location, !old);
+  }, [location, onStep]);
+}
+`,
+  },
+  {
     name: 'inside a custom hook',
     code: `
 let pending: string | null = 'value';
